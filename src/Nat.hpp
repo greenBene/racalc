@@ -6,7 +6,6 @@ const u_size_t STD_SIZE = 4;
 
 class Nat {
   private:
-    Nat(std::list<u_limb_t> values);
     u_limb_t* values;
     u_size_t size;
     u_size_t alloc;
