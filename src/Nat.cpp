@@ -35,30 +35,28 @@ void Nat::add_limb(u_limb_t limb){
     this->resize_values();
 }
 
-Nat Nat::add(Nat a, Nat b) {
-    Nat new_nat = Nat();
+void Nat::add(Nat x) {
+    u_limb_t this_val, x_val, result, carry = 0;
+    u_size_t this_iterator = 0, x_iterator = 0; 
 
-    u_limb_t a_val, b_val, result, carry = 0;
-    u_size_t a_iterator = 0, b_iterator = 0; 
-    bool a_done = false, b_done = false;
+    bool this_done = false, x_done = false;
 
-    while(a_done != true || b_done != true || carry > 0){
+    while(x_done != true || carry > 0){
 
-        if(a_iterator < a.size){
-            a_val = a.values[a_iterator++];
+        if(this_iterator < this->size){
+            this_val = this->values[this_iterator];
         } else {
-            a_val = 0;
-            a_done = true;
+            this_val = 0;
         }
 
-        if(b_iterator < b.size){
-            b_val = b.values[b_iterator++];
+        if(x_iterator < x.size){
+            x_val = x.values[x_iterator++];
         } else {
-            b_val = 0;
-            b_done = true;
+            x_val = 0;
+            x_done = true;
         }
 
-        result = a_val + b_val + carry;
+        result = this_val + x_val + carry;
 
         if(result >= BASE){
             result %= BASE;
@@ -67,21 +65,43 @@ Nat Nat::add(Nat a, Nat b) {
             carry = 0;
         }
 
-        if(result > 0 || !a_done || !b_done || carry > 0){
-            new_nat.add_limb(result);
+        if(result > 0 || !x_done || carry > 0){
+            if(this_iterator < this->size){
+                this->values[this_iterator] = result;
+                this_iterator++;
+            }
+            else {
+                this->add_limb(result);
+            }
         }
     };
+}
+
+Nat Nat::add(Nat a, Nat b) {
+    Nat result = a.clone();
+
+    result.add(b);
     
-    return new_nat;
+    return result;
 }
 
 Nat Nat::shift(Nat x, unsigned int n) {
-    Nat ret = x;
+    Nat ret = x.clone();
 
     for (int i = 0; i < n; i++){
-        ret = Nat::add(ret, ret);
+        ret.add(ret);
     }
+    
     return ret;
+}
+
+Nat Nat::clone() {
+    Nat n = Nat();
+    n.alloc = this->alloc;
+    n.size = this->size;
+    memcpy(n.values, this->values, this->size * sizeof(u_size_t));
+
+    return n;
 }
 
 void Nat::print() {

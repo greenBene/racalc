@@ -7,5 +7,5 @@ project(racalc)
 
 # add the executable
 add_executable(racalc 
-    src/HelloWorld.cpp
+    src/main.cpp
     src/Nat.cpp)

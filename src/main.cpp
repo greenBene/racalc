@@ -15,13 +15,12 @@ int main(int argc, char *argv[]){
                 exit(1);
             }
 
-            std::cout << "N1:\n";
             Nat n1 = Nat(x1);
             n1.print();
 
-            std::cout << "\nN2:\n";
             Nat n2 = Nat(x2);
             n2.print();
+
 
             std::cout << "\nN1 * 2 ^ N2:\n";
             Nat::shift(n1, x2).print();
