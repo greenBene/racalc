@@ -36,7 +36,6 @@ void Nat::add_limb(u_limb_t limb){
 }
 
 Nat Nat::add(Nat a, Nat b) {
-    u_limb_t* values = new u_limb_t[STD_SIZE];
     Nat new_nat = Nat();
 
     u_limb_t a_val, b_val, result, carry = 0;
