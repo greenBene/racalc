@@ -49,6 +49,34 @@ void Int::normalize(){
 }
 
 void Int::add(Int x) {
+    if(!this->isPositive || !x.isPositive){
+        if(this->isPositive && !x.isPositive){
+            Int x_pos = x.clone();
+            x_pos.isPositive = true;
+            this->sub(x_pos);
+            return;
+        }
+        else if(!this->isPositive && x.isPositive) {
+            Int this_pos = this->clone();
+            this_pos.isPositive = true;
+            Int result = Int::sub(x, this_pos);
+
+            this->alloc = result.alloc;
+            this->size = result.size;
+            this->isPositive = result.isPositive;
+            this->values = result.values;
+
+            return;
+        } else {
+            Int x_pos = x.clone();
+            x_pos.isPositive = true;
+            this->isPositive = true;
+            this->add(x_pos);
+            this->isPositive = false;
+        }
+    }
+
+
     u_limb_t this_val, x_val, result, carry = 0;
     u_size_t this_iterator = 0, x_iterator = 0; 
 
@@ -133,6 +161,14 @@ Int Int::sub(Int v, Int w) {
     }
     u.normalize();
     return u;
+}
+
+void Int::sub(Int v){
+    Int result = Int::sub(*this, v);
+    this->alloc = result.alloc;
+    this->size = result.size;
+    this->isPositive = result.isPositive;
+    this->values = result.values;
 }
 
 Int Int::add(Int a, Int b) {

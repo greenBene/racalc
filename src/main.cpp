@@ -9,9 +9,9 @@ int main(int argc, char *argv[]){
     Int a = Int(x1);
     Int b = Int(x2);
 
-    std::cout << " " << x1 << "-" << x2 << ": ";
-    Int c = Int::sub(a, b);
-    c.print();
+    std::cout << " " << x1 << " + " << x2 << ": ";
+    a.add(b);
+    a.print();
 
 
 
