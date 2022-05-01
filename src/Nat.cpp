@@ -2,7 +2,6 @@
 #include "Nat.hpp"
 #include <string>
 
-
 Nat::Nat(){
     this->values = new u_limb_t[STD_SIZE];
     this->alloc = STD_SIZE;

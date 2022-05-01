@@ -1,4 +1,5 @@
 #include <list>
+
 typedef unsigned long long int u_limb_t;
 typedef unsigned long long int u_size_t;
 const u_limb_t BASE = 9223372036854775808U; // 2^63

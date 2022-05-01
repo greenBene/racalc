@@ -8,4 +8,5 @@ project(racalc)
 # add the executable
 add_executable(racalc 
     src/main.cpp
+    src/Int.cpp
     src/Nat.cpp)
