@@ -22,7 +22,7 @@ class Int {
 
     void print();
     void add(Int x);
-    void sub(Int x);
+    // void sub(Int x);
     Int clone();
 
 

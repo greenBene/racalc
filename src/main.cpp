@@ -10,8 +10,8 @@ int main(int argc, char *argv[]){
     Int b = Int(x2);
 
     std::cout << " " << x1 << "-" << x2 << ": ";
-    a.sub(b);
-    a.print();
+    Int c = Int::sub(a, b);
+    c.print();
 
 
 

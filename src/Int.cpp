@@ -43,7 +43,7 @@ void Int::add_limb(u_limb_t limb){
 }
 
 void Int::normalize(){
-    while(this->values[this->size-1] == 0){
+    while(this->size > 0 && this->values[this->size-1] == 0){
         this->size--;
     }
 }
@@ -90,35 +90,49 @@ void Int::add(Int x) {
     };
 }
 
-void Int::sub(Int x) {
-    if (!this->isPositive || !x.isPositive) {
-        std::cerr << " TO IMPLEMENT\n";
-        return;
+Int Int::sub(Int v, Int w) {
+    if (!v.isPositive || !w.isPositive) {
+        if (!v.isPositive && w.isPositive){
+            Int v_pos = v.clone();
+            v_pos.isPositive = true;
+            Int result = Int::add(v_pos, w);
+            result.isPositive = false;
+            return result;
+        } else if (v.isPositive && !w.isPositive){
+            Int w_pos = w.clone();
+            w_pos.isPositive = true;
+            return Int::add(v, w_pos);
+        } else {
+            Int v_pos = v.clone(), w_pos = w.clone();
+            v_pos.isPositive = true;
+            w_pos.isPositive = true;
+            Int result = Int::sub(v_pos, w_pos);
+            result.isPositive = !result.isPositive;
+            return result;
+        }
     }
 
-    if (!Int::gEq(*this, x)){
-        std::cerr << " TO IMPLEMENT\n";
-        return;
+    if (!Int::gEq(v, w)){
+        Int result =  Int::sub(w, v);
+        result.isPositive = false;
+        return result;
     }
 
-    int v_i = 0;
-    int w_i = 0;
-    int s_i = 0;
-    int u_i = 0;
-    int temp = 0;
+    int v_i = 0, w_i = 0, s_i = 0, u_i = 0, temp = 0;
+    Int u = Int();
 
-    for(int i = 0; i< this->size; i++){
-        v_i = this->values[i];
-        w_i = (x.size > i? x.values[i]: 0);
-        
+    for(int i = 0; i< v.size; i++){
+        v_i = v.values[i];
+        w_i = (w.size > i? w.values[i]: 0);
+
         temp = (v_i - w_i + s_i);
         s_i = (temp >= 0 ? 0 : -1);
         u_i = (temp - s_i * BASE) % BASE;
 
-        this->values[i]=u_i;
+        u.add_limb(u_i);
     }
-
-    normalize();
+    u.normalize();
+    return u;
 }
 
 Int Int::add(Int a, Int b) {
@@ -141,38 +155,6 @@ bool Int::gEq(Int x, Int y) {
         return x.values[x.size-1] >= y.values[y.size-1];
     else 
         return x.values[x.size-1] <= y.values[y.size-1];
-}
-
-Int Int::sub(Int v, Int w) {
-    int size = (v.size > w.size ? v.size : w.size);
-
-    int v_i = 0;
-    int w_i = 0;
-    int s_i = 0;
-    int u_i = 0;
-
-    for(int i = 0; i< size; i++){
-        v_i = (v.size > i? v.values[i]: 0);
-        w_i = (w.size > i? w.values[i]: 0);
-
-        int x_i = (v_i - w_i + s_i);
-        s_i = (x_i > 0 ? 0 : -1);
-        u_i = (x_i - s_i * BASE) % BASE;
-
-        std::cout << "i: "    << i << 
-                     " u_i: " << u_i << 
-                     " s_(i+1): " << s_i <<
-                     " v_i: " << v_i <<
-                     " w_i: " << w_i <<
-                     " x_i: " << x_i <<
-                     "\n";
-    }
-
-    if(v.isPositive != w.isPositive){
-        std::cout << (v.isPositive? "+" : "-");
-    } 
-
-    return Int();
 }
 
 Int Int::shift(Int x, unsigned int n) {
@@ -200,6 +182,9 @@ void Int::print() {
     for(u_size_t i = 0; i < this->size; i++){
         s = " " + std::to_string(this->values[i]) + s;
     }
+
+    if (this->size == 0)
+        s = " 0";
 
     std::cout << '(' << (this->isPositive? "+": "-") << s << ") base_" << BASE << '\n';
 }
