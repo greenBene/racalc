@@ -31,4 +31,6 @@ class Int {
     static bool gEq(Int x, Int y);
     static Int shift_r(Int x, unsigned int k);
     static Int shift(Int x, unsigned n);
+    static Int fams(Int x, Int y, unsigned int k, u_limb_t m);
+    static Int mul(Int x, u_limb_t m);
 };

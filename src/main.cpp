@@ -4,14 +4,19 @@
 
 int main(int argc, char *argv[]){
     
-    int x_int = std::stoi(argv[1]);
-    int k = std::stoi(argv[2]);
-    Int x_Int = Int(x_int);
-    // Int b = Int(x2);
+    int x_input = std::stoi(argv[1]);
+    int m_input = std::stoi(argv[2]);
+    int y_input = std::stoi(argv[3]);
+    int k_input = std::stoi(argv[4]);
+    Int x = Int(x_input);
+    Int y = Int(y_input);
 
-    std::cout << x_int << " shit_r(" << k << "): ";
-    Int::shift_r(x_Int, k).print();
-    std::cout << '\n';
+    // x + m * y * r ^k
+    std::cout << x_input << " + " << m_input << "*" << y_input << "* r ^" << k_input << "): \n";
+    Int::fams(x, y, k_input, m_input).print();
+
+    // Int::shift_r(y, k_input).print(); 
+
 
     // Nat::add(Nat::shift(Nat(1234567890), 100), Nat(1)).print();
     

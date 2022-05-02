@@ -98,7 +98,6 @@ void Int::add(Int x) {
             x_val = x.values[x_iterator++];
         } else {
             x_val = 0;
-            x_done = true;
         }
 
         result = this_val + x_val + carry;
@@ -118,6 +117,10 @@ void Int::add(Int x) {
             else {
                 this->add_limb(result);
             }
+        }
+
+        if(x_iterator >= x.size && this_iterator >= this->size && carry == 0){
+            x_done = true;
         }
     };
 }
@@ -254,4 +257,56 @@ void Int::print() {
         s = " 0";
 
     std::cout << '(' << (this->isPositive? "+": "-") << s << ") base_" << BASE << '\n';
+}
+
+Int Int::mul(Int x, u_limb_t m){
+    if(m >= BASE || m < 0 ){
+        std::cerr << "invalid m \n";
+        return Int();
+    }
+
+    Int result = Int();
+    result.isPositive = x.isPositive;
+    
+    u_limb_t s_i = 0;
+    u_limb_t temp = 0;
+
+    for (int i = 0; i < x.size; i++){
+        temp = (x.values[i] * m) + s_i;
+        result.add_limb(temp % BASE);
+        s_i = temp / BASE;
+    }
+
+    if(s_i != 0){
+        result.add_limb(s_i);
+    }
+
+    result.normalize();
+
+    return result;
+}
+
+
+Int Int::fams(Int x, Int y, unsigned int k, u_limb_t m){
+    // x + m * y * r ^k
+    if(m >= BASE || m < 0 ){
+        std::cerr << "invalid m \n";
+        return Int();
+    }
+
+    Int x_1 = Int::shift_r(y, k);
+    std::cout << "y*r^k: ";
+    x_1.print();
+    Int x_2 = Int::mul(x_1, m);
+    std::cout << "m*y*r^k: ";
+    x_2.print();
+
+    Int max = (Int::gEq(x, x_2)?x:x_2);
+    Int min = (Int::gEq(x, x_2)?x_2:x);
+
+    Int x_3 = Int::add(max, min);
+    std::cout << "x + m*y*r^k: ";
+    x_3.print();
+
+    return x_3;
 }
