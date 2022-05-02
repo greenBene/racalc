@@ -5,14 +5,13 @@
 int main(int argc, char *argv[]){
     
     int x_input = std::stoi(argv[1]);
-    // int y_input = std::stoi(argv[2]);
+    int y_input = std::stoi(argv[2]);
     Int x = Int(x_input);
-    // Int y = Int(y_input);
+    Int y = Int(y_input);
 
     // x + m * y * r ^k
-    std::cout << x_input << " high " <<  "= \n";
-    Int::high(x).print();
-    Int::low(x).print();
+    std::cout << x_input << " * " << y_input << " = \n";
+    Int::mul_karatsuba(x, y).print();
 
     // Int::shift_r(y, k_input).print(); 
 

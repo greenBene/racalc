@@ -36,4 +36,5 @@ class Int {
     static Int mul(Int v, Int w);
     static Int high(Int x);
     static Int low(Int x);
+    static Int mul_karatsuba(Int x, Int y);
 };

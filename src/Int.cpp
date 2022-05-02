@@ -343,3 +343,66 @@ Int Int::low(Int x){
     memcpy(result.values, x.values, lenght * sizeof(u_size_t));
     return result;
 }
+
+Int Int::mul_karatsuba(Int x, Int y){
+    std::cout << "rec start\n";
+    x.print();
+    y.print();
+
+    if(Int::gEq(Int(100), x) && Int::gEq(Int(100), y)){
+        std::cout << "Schulmethode\n";
+        return Int::mul(x, y);
+    }
+
+    Int x_high = Int::high(x);
+    Int x_low = Int::low(x);
+    Int y_high = Int::high(y);
+    Int y_low = Int::low(y);
+
+    x_high.print();
+    x_low.print();
+    y_high.print();
+    y_low.print();
+
+    Int temp = Int::add(
+                Int::shift_r(Int(BASE), x.size),
+                Int::shift_r(Int(BASE), x_low.size));
+
+    temp.normalize();
+
+    Int first = 
+        Int::mul_karatsuba(
+            temp,
+            Int::mul_karatsuba(
+                x_high, y_high
+            )
+        );
+
+    std::cout << "second\n";
+    Int second = 
+    Int::mul_karatsuba(
+        Int::mul_karatsuba(
+            Int::shift_r(Int(BASE), x_low.size),
+            Int::sub(x_high, x_low)
+        ),
+        Int::sub(y_low, y_high)
+    );
+
+    std::cout << "third\n";
+    Int third = Int::mul_karatsuba(
+        Int::add(
+            Int::shift_r(Int(BASE), x_low.size),
+            Int(1)
+        ),
+        Int::mul_karatsuba(
+            x_low, y_low
+        )
+    );
+
+    Int max = (Int::gEq(first, second)? first: second);
+    Int min =  (Int::gEq(first, second)? second: first);
+    Int result = Int::add(max, min);
+    max = (Int::gEq(result, third)? result: third);
+    min = (Int::gEq(result, third)? third: result);
+    return Int::add(max, min);
+}
