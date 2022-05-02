@@ -319,3 +319,27 @@ Int Int::mul(Int v, Int w){
 
     return sum;
 }
+
+Int Int::high(Int x){
+    int lenght = (x.size / 2) + (x.size % 2);
+    Int result = Int();
+    result.size = lenght;
+    result.alloc = x.alloc;
+    result.values = new u_limb_t[result.alloc];
+    
+    memcpy(result.values, x.values + (x.size - lenght), lenght * sizeof(u_size_t));
+    return result;
+}
+
+
+Int Int::low(Int x){
+    int lenght = (x.size / 2);
+
+    Int result = Int();
+    result.size = lenght;
+    result.alloc = x.alloc;
+    result.values = new u_limb_t[result.alloc];
+    
+    memcpy(result.values, x.values, lenght * sizeof(u_size_t));
+    return result;
+}
