@@ -26,8 +26,12 @@ Int::Int(int value): Int(){
 }
 
 void Int::resize_values(){
-    if(this->size == this->alloc){
-        this->alloc = this->alloc * 2;
+    if(this->size >= this->alloc){
+
+        while(this->size >= this->alloc){
+            this->alloc = this->alloc * 2;
+        }
+
         u_limb_t* new_values_array = new u_limb_t[this->alloc];
 
         memcpy(new_values_array, this->values, this->size * sizeof(u_size_t));
@@ -204,6 +208,21 @@ bool Int::gEq(Int x, Int y) {
         return true;
     }
 }
+
+
+Int Int::shift_r(Int x, unsigned int k){
+    Int result = Int();
+
+    result.isPositive = x.isPositive;
+    result.size = x.size + k;
+    result.alloc = result.size + 1;
+    result.values = new u_limb_t[result.alloc];
+
+    memcpy(result.values + k, x.values, x.size * sizeof(u_size_t));
+
+    return result;
+};
+
 
 Int Int::shift(Int x, unsigned int n) {
     Int ret = x.clone();

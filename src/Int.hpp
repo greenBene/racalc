@@ -29,5 +29,6 @@ class Int {
     static Int add(Int x, Int y);
     static Int sub(Int v, Int w);
     static bool gEq(Int x, Int y);
+    static Int shift_r(Int x, unsigned int k);
     static Int shift(Int x, unsigned n);
 };

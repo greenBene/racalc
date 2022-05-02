@@ -4,12 +4,14 @@
 
 int main(int argc, char *argv[]){
     
-    int x1 = std::stoi(argv[1]);
-    int x2 = std::stoi(argv[2]);
-    Int a = Int(x1);
-    Int b = Int(x2);
+    int x_int = std::stoi(argv[1]);
+    int k = std::stoi(argv[2]);
+    Int x_Int = Int(x_int);
+    // Int b = Int(x2);
 
-    std::cout << " " << x1 << " >= " << x2 << ": " << Int::gEq(x1, x2) << '\n';
+    std::cout << x_int << " shit_r(" << k << "): ";
+    Int::shift_r(x_Int, k).print();
+    std::cout << '\n';
 
     // Nat::add(Nat::shift(Nat(1234567890), 100), Nat(1)).print();
     
