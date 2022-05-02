@@ -33,4 +33,5 @@ class Int {
     static Int shift(Int x, unsigned n);
     static Int fams(Int x, Int y, unsigned int k, u_limb_t m);
     static Int mul(Int x, u_limb_t m);
+    static Int mul(Int v, Int w);
 };

@@ -295,18 +295,27 @@ Int Int::fams(Int x, Int y, unsigned int k, u_limb_t m){
     }
 
     Int x_1 = Int::shift_r(y, k);
-    std::cout << "y*r^k: ";
-    x_1.print();
     Int x_2 = Int::mul(x_1, m);
-    std::cout << "m*y*r^k: ";
-    x_2.print();
 
     Int max = (Int::gEq(x, x_2)?x:x_2);
     Int min = (Int::gEq(x, x_2)?x_2:x);
 
     Int x_3 = Int::add(max, min);
-    std::cout << "x + m*y*r^k: ";
-    x_3.print();
 
     return x_3;
+}
+
+Int Int::mul(Int v, Int w){
+    Int sum = Int();
+
+    for(int i = 0; i < w.size; i++){
+        Int temp = Int::mul(v, w.values[i]);
+        temp = Int::shift_r(temp, i);
+
+        Int max = (Int::gEq(temp, sum)?temp:sum);
+        Int min = (Int::gEq(temp, sum)?sum:temp);
+        sum = Int::add(max, min);
+    }
+
+    return sum;
 }
