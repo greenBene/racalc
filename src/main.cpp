@@ -9,11 +9,7 @@ int main(int argc, char *argv[]){
     Int a = Int(x1);
     Int b = Int(x2);
 
-    std::cout << " " << x1 << " + " << x2 << ": ";
-    a.add(b);
-    a.print();
-
-
+    std::cout << " " << x1 << " >= " << x2 << ": " << Int::gEq(x1, x2) << '\n';
 
     // Nat::add(Nat::shift(Nat(1234567890), 100), Nat(1)).print();
     

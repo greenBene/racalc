@@ -187,10 +187,22 @@ bool Int::gEq(Int x, Int y) {
         return x.size > y.size;
     else if (x.size != y.size && !x.isPositive)
         return x.size < y.size;
-    else if (x.isPositive)
-        return x.values[x.size-1] >= y.values[y.size-1];
-    else 
-        return x.values[x.size-1] <= y.values[y.size-1];
+    else if (x.isPositive){
+        for (int i = x.size -1; i>=0; i--){
+            if (x.values[i] != y.values[i]) {
+                return x.values[i] >= y.values[i];
+            }
+        }
+        return true;
+    }
+    else {
+        for (int i = x.size -1; i>=0; i--){
+            if (x.values[i] != y.values[i]) {
+                return x.values[i] <= y.values[i];
+            }
+        }
+        return true;
+    }
 }
 
 Int Int::shift(Int x, unsigned int n) {
